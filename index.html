@@ -389,6 +389,10 @@
         return `<span class="overline">(${expr})</span>`;
     }
 
+    function negText(expr) {
+        return `(${expr}) の否定`;
+    }
+
     function currentRegionId() {
         return `r${state.A}${state.B}${state.C}`;
     }
@@ -470,24 +474,24 @@
         },
 
         double_not: {
-            formula: () => `${notLabel(notLabel(labelOf("A")))} = ${labelOf("A")}`,
-            leftLabel: () => `${notLabel(notLabel(labelOf("A")))}`,
+            formula: () => `${negText(negText(labelOf("A")))} = ${labelOf("A")}`,
+            leftLabel: () => `${negText(negText(labelOf("A")))}`,
             rightLabel: () => `${labelOf("A")}`,
             left: s => complement(complement(s.A)),
             right: s => s.A
         },
-
+        
         demorgan_or: {
-            formula: () => `${notLabel(`${labelOf("A")} + ${labelOf("B")}`)} = ${notLabel(labelOf("A"))} ・ ${notLabel(labelOf("B"))}`,
-            leftLabel: () => `${notLabel(`${labelOf("A")} + ${labelOf("B")}`)}`,
-            rightLabel: () => `${notLabel(labelOf("A"))} ・ ${notLabel(labelOf("B"))}`,
+            formula: () => `${negText(`${labelOf("A")} + ${labelOf("B")}`)} = ${negText(labelOf("A"))} ・ ${negText(labelOf("B"))}`,
+            leftLabel: () => `${negText(`${labelOf("A")} + ${labelOf("B")}`)}`,
+            rightLabel: () => `${negText(labelOf("A"))} ・ ${negText(labelOf("B"))}`,
             left: s => complement(union(s.A, s.B)),
             right: s => intersection(complement(s.A), complement(s.B))
         },
         demorgan_and: {
-            formula: () => `${notLabel(`${labelOf("A")} ・ ${labelOf("B")}`)} = ${notLabel(labelOf("A"))} + ${notLabel(labelOf("B"))}`,
-            leftLabel: () => `${notLabel(`${labelOf("A")} ・ ${labelOf("B")}`)}`,
-            rightLabel: () => `${notLabel(labelOf("A"))} + ${notLabel(labelOf("B"))}`,
+            formula: () => `${negText(`${labelOf("A")} ・ ${labelOf("B")}`)} = ${negText(labelOf("A"))} + ${negText(labelOf("B"))}`,
+            leftLabel: () => `${negText(`${labelOf("A")} ・ ${labelOf("B")}`)}`,
+            rightLabel: () => `${negText(labelOf("A"))} + ${negText(labelOf("B"))}`,
             left: s => complement(intersection(s.A, s.B)),
             right: s => union(complement(s.A), complement(s.B))
         },
@@ -523,15 +527,15 @@
         },
 
         comp_or: {
-            formula: () => `${labelOf("A")} + ${notLabel(labelOf("A"))} = 1`,
-            leftLabel: () => `${labelOf("A")} + ${notLabel(labelOf("A"))}`,
+            formula: () => `${labelOf("A")} + ${negText(labelOf("A"))} = 1`,
+            leftLabel: () => `${labelOf("A")} + ${negText(labelOf("A"))}`,
             rightLabel: () => `1`,
             left: s => union(s.A, complement(s.A)),
             right: s => universeSet()
         },
         comp_and: {
-            formula: () => `${labelOf("A")} ・ ${notLabel(labelOf("A"))} = 0`,
-            leftLabel: () => `${labelOf("A")} ・ ${notLabel(labelOf("A"))}`,
+            formula: () => `${labelOf("A")} ・ ${negText(labelOf("A"))} = 0`,
+            leftLabel: () => `${labelOf("A")} ・ ${negText(labelOf("A"))}`,
             rightLabel: () => `0`,
             left: s => intersection(s.A, complement(s.A)),
             right: s => emptySet()
